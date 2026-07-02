@@ -1,30 +1,15 @@
 <?php
-    $produtosCafe = [
-        [
-            'nome' => 'Café Cremoso',
-            'descricao' => 'Café cremoso irresistivelmente suave e que envolve seu paladar',
-            'preco' => 5.00,
-            'imagem' => 'img/cafe-cremoso.jpg'
-        ],
-        [  
-            'nome' => 'Café com Leite',
-            'descricao' => 'A harmonia do café e do leite, uma experiência reconfortante',
-            'preco' => 2.00,
-            'imagem' => 'img/cafe-com-leite.jpg'
-        ],
-        [
-            'nome' => 'Cappuccino',
-            'descricao' => 'Café suave, leite cremoso e uma pitada de sabor adocicado',
-            'preco' => 3.00,
-            'imagem' => 'img/cappuccino.jpg'
-        ],
-        [
-            'nome' => 'Café Gelado',
-            'descricao' => 'Café gelado refrescante, adoçado e com notas sutis de baunilha ou caramelo',
-            'preco' => 3.00,
-            'imagem' => 'img/cafe-gelado.jpg'
-        ]
-    ];
+
+require_once 'src/conexao-db.php';
+
+$queryCafe = "SELECT * FROM produtos WHERE tipo = 'cafe' ORDER BY preco";
+$statement = $pdo->query($queryCafe);
+$produtosCafe = $statement->fetchAll(PDO::FETCH_ASSOC);
+
+$queryAlmoco = "SELECT * FROM produtos WHERE tipo = 'almoço' ORDER BY preco";
+$statement = $pdo->query($queryAlmoco);
+$produtosAlmoco = $statement->fetchAll(PDO::FETCH_ASSOC);
+
 ?>
 
 <!doctype html>
@@ -57,14 +42,16 @@
                 <img class= "ornaments" src="img/ornaments-coffee.png" alt="ornaments">
             </div>
             <div class="container-cafe-manha-produtos">
-                <div class="container-produto">
-                    <div class="container-foto">
-                        <img src="img/cafe-cremoso.jpg">
+                <?php foreach ($produtosCafe as $cafe): ?>
+                    <div class="container-produto">
+                        <div class="container-foto">
+                            <img src="<?= "img/" . $cafe['imagem']; ?>">
+                        </div>
+                        <p><?= $cafe['nome']; ?></p>
+                        <p><?= $cafe['descricao']; ?></p>
+                        <p><?= "R$ " . number_format($cafe['preco'], 2, ',','.'); ?></p>
                     </div>
-                    <p>Café Cremoso</p>
-                    <p>Café cremoso irresistivelmente suave e que envolve seu paladar</p>
-                    <p>R$ 5.00</p>
-                </div>
+                <?php endforeach; ?>
             </div>
         </section>
         <section class="container-almoco">
@@ -73,40 +60,17 @@
                 <img class= "ornaments" src="img/ornaments-coffee.png" alt="ornaments">
             </div>
             <div class="container-almoco-produtos">
-                <div class="container-produto">
-                    <div class="container-foto">
-                        <img src="img/bife.jpg">
+                <?php foreach ($produtosAlmoco as $almoco): ?>
+                    <div class="container-produto">
+                        <div class="container-foto">
+                            <img src="<?= "img/" . $almoco['imagem'] ?>">
+                        </div>
+                        <p><?= $almoco['nome'] ?></p>
+                        <p><?= $almoco['descricao'] ?></p>
+                        <p><?= "R$ " . number_format($almoco['preco'], 2, ',', '.') ?></p>
                     </div>
-                    <p>Bife</p>
-                    <p>Bife, arroz com feijão e uma deliciosa batata frita</p>
-                    <p>R$ 27.90</p>
-                </div>
-                <div class="container-produto">
-                    <div class="container-foto">
-                        <img src="img/prato-peixe.jpg">
-                    </div>
-                    <p>Filé de peixe</p>
-                    <p>Filé de peixe salmão assado, arroz, feijão verde e tomate.</p>
-                    <p>R$ 24.99</p>
-                </div>
-                <div class="container-produto">
-                    <div class="container-foto">
-                        <img src="img/prato-frango.jpg">
-                    </div>
-                    <p>Frango</p>
-                    <p>Saboroso frango à milanesa com batatas fritas, salada de repolho e molho picante</p>
-                    <p>R$ 23.00</p>
-                </div>
-                <div class="container-produto">
-                    <div class="container-foto">
-                        <img src="img/fettuccine.jpg">
-                    </div>
-                    <p>Fettuccine</p>
-                    <p>Prato italiano autêntico da massa do fettuccine com peito de frango grelhado</p>
-                    <p>R$ 22.50</p>
-                </div>
+                <?php endforeach; ?>
             </div>
-
         </section>
     </main>
 </body>

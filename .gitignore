@@ -1,0 +1,3 @@
+# Ignorar arquivos de configuração sensíveis
+.env
+src/conexao-db.php
