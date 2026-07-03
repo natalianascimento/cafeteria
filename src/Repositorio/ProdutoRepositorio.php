@@ -47,7 +47,8 @@ class ProdutoRepositorio
         return $dadosAlmoco;
     }
 
-    public function buscarProdutos(): array {
+    public function buscarProdutos(): array 
+    {
         $query = "SELECT * FROM produtos ORDER BY tipo, nome";
         $statement = $this->pdo->query($query);
         $todosProdutos = $statement->fetchAll(PDO::FETCH_ASSOC);
@@ -57,5 +58,13 @@ class ProdutoRepositorio
         }, $todosProdutos);
 
         return $produtos;
+    }
+
+    public function excluirProduto(int $id)
+    {
+        $query = "DELETE FROM produtos WHERE id = ?";
+        $statement =$this->pdo->prepare($query);
+        $statement->bindValue(1, $id);
+        $statement->execute();
     }
 }

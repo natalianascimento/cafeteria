@@ -54,8 +54,9 @@
           <td><?= $produto->getPrecoFormatado() ?></td>
           <td><a class="botao-editar" href="editar-produto.html">Editar</a></td>
           <td>
-            <form>
-              <input type="button" class="botao-excluir" value="Excluir">
+            <form action="excluir-produto.php">
+              <input type="hidden" name="id" value="<?=  $produto->getId() ?>">
+              <input type="submit" class="botao-excluir" value="Excluir">
             </form>
           </td>
         </tr>
