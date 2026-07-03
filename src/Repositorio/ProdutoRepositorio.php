@@ -9,6 +9,18 @@ class ProdutoRepositorio
         $this->pdo = $pdo;
     }
 
+    public function formarObjeto($dados)
+    {
+        return new Produto(
+                $dados['id'], 
+                $dados['tipo'],
+                $dados['nome'], 
+                $dados['descricao'], 
+                $dados['preco'], 
+                $dados['imagem']
+                );
+    }
+
     public function opcoesCafe(): array
     {
         $queryCafe = "SELECT * FROM produtos WHERE tipo = 'cafe' ORDER BY preco";
@@ -16,14 +28,7 @@ class ProdutoRepositorio
         $produtosCafe = $statement->fetchAll(PDO::FETCH_ASSOC);
 
         $dadosCafe = array_map(function ($cafe) {
-            return new Produto(
-                $cafe['id'], 
-                $cafe['tipo'],
-                $cafe['nome'], 
-                $cafe['descricao'], 
-                $cafe['preco'], 
-                $cafe['imagem']
-                );
+            return $this->formarObjeto($cafe);
         }, $produtosCafe);
 
         return $dadosCafe;
@@ -35,18 +40,22 @@ class ProdutoRepositorio
         $statement = $this->pdo->query($queryAlmoco);
         $produtosAlmoco = $statement->fetchAll(PDO::FETCH_ASSOC);
 
-
         $dadosAlmoco = array_map(function ($almoco) {
-            return new Produto(
-                $almoco['id'], 
-                $almoco['tipo'],
-                $almoco['nome'], 
-                $almoco['descricao'], 
-                $almoco['preco'], 
-                $almoco['imagem']
-                );
+           return $this->formarObjeto($almoco);
         }, $produtosAlmoco);
 
         return $dadosAlmoco;
+    }
+
+    public function buscarProdutos(): array {
+        $query = "SELECT * FROM produtos ORDER BY tipo, nome";
+        $statement = $this->pdo->query($query);
+        $todosProdutos = $statement->fetchAll(PDO::FETCH_ASSOC);
+
+        $produtos = array_map(function ($produto) {
+            return $this->formarObjeto($produto);
+        }, $todosProdutos);
+
+        return $produtos;
     }
 }
