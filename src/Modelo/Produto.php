@@ -49,12 +49,17 @@ class produto
         return $this->imagem;
     }
 
+    public function setImagem(string $imagem): void
+    {
+        $this->imagem = $imagem;
+    }
+
     public function getPrecoFormatado(): string
     {
         return "R$ " . number_format($this->preco, 2, ',', '.');
     }
 
-    public function getImagemPath(): string
+    public function getImagemDiretorio(): string
     {
         return "img/" . $this->imagem;
     }

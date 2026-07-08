@@ -12,10 +12,17 @@
         $_POST['preco']
         );
 
+        if ($_FILES['imagem']['error'] == UPLOAD_ERR_OK){
+          $produto->setImagem(uniqid() . $_FILES['imagem']['name']);
+          move_uploaded_file($_FILES['imagem']['tmp_name'], $produto->getImagemDiretorio());
+        }
+        
         $produtoRepositorio = new ProdutoRepositorio($pdo);
         $produtoRepositorio->salvar($produto);
         header("Location: admin.php");
     }
+
+    
     
 ?>
 <!doctype html>
@@ -44,7 +51,7 @@
         <img class= "ornaments" src="img/ornaments-coffee.png" alt="ornaments">
     </section>
     <section class="container-form">
-        <form method="post">
+        <form method="post" enctype="multipart/form-data">
 
             <label for="nome">Nome</label>
             <input type="text" id="nome" name="nome" placeholder="Digite o nome do produto" required>

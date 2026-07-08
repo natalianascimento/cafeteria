@@ -93,14 +93,26 @@ class ProdutoRepositorio
 
     public function atualizarProduto(Produto $produto)
     {
-        $query = "UPDATE produtos SET tipo = ?, nome = ?, descricao = ?, preco = ?, imagem = ? WHERE id = ?";
+        $query = "UPDATE produtos SET tipo = ?, nome = ?, descricao = ?, preco = ? WHERE id = ?";
         $statement = $this->pdo->prepare($query);
         $statement->bindValue(1, $produto->getTipo());
         $statement->bindValue(2, $produto->getNome());
         $statement->bindValue(3, $produto->getDescricao());
         $statement->bindValue(4, $produto->getPreco());
-        $statement->bindValue(5, $produto->getImagem());
-        $statement->bindValue(6, $produto->getId());
+        $statement->bindValue(5, $produto->getId());
+        $statement->execute();
+
+        if ($produto->getImagem() != 'logo-serenatto.png'){
+            $this->atualizarImagem($produto);
+        }
+    }
+
+    private function atualizarImagem(Produto $produto)
+    {
+        $sql = "UPDATE produtos SET imagem = ? WHERE id = ?";
+        $statement = $this->pdo->prepare($sql);
+        $statement->bindValue(1, $produto->getImagem());
+        $statement->bindValue(2, $produto->getId());
         $statement->execute();
     }
 }
