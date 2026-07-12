@@ -13,8 +13,8 @@ class produto
     {
         $this->id = $id;
         $this->tipo = $tipo;
-        $this->nome = $nome;
-        $this->descricao = $descricao;
+        $this->setNome($nome);
+        $this->setDescricao($descricao);
         $this->preco = $preco;
         $this->imagem = $imagem;
     }
@@ -47,6 +47,22 @@ class produto
     public function getImagem(): string
     {
         return $this->imagem;
+    }
+
+    public function setNome($nome)
+    {
+        if (strlen($nome) < 3 || strlen($nome) > 45){
+            throw new Exception("Campo 'Nome' deve ter entre 3 e 45 caracteres.");
+        }
+        $this->nome = $nome;
+    }
+
+    public function setDescricao($descricao)
+    {
+        if (strlen($descricao) < 10 || strlen($descricao) > 90){
+            throw new Exception("Campo 'Descrição' deve ter entre 10 e 90 caracteres.");
+        }
+        $this->descricao = $descricao;
     }
 
     public function setImagem(string $imagem): void

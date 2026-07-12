@@ -1,9 +1,11 @@
 <?php
-    require_once 'src/conexao-db.php';
-    require_once 'src/Modelo/Produto.php';
-    require_once 'src/Repositorio/ProdutoRepositorio.php';
-    
-    if(isset($_POST['cadastro'])){
+
+require_once 'src/conexao-db.php';
+require_once 'src/Modelo/Produto.php';
+require_once 'src/Repositorio/ProdutoRepositorio.php';
+
+try {
+    if (isset($_POST['cadastro'])){
         $produto = new Produto(
         null, 
         $_POST['tipo'], 
@@ -13,8 +15,8 @@
         );
 
         if ($_FILES['imagem']['error'] == UPLOAD_ERR_OK){
-          $produto->setImagem(uniqid() . $_FILES['imagem']['name']);
-          move_uploaded_file($_FILES['imagem']['tmp_name'], $produto->getImagemDiretorio());
+        $produto->setImagem(uniqid() . $_FILES['imagem']['name']);
+        move_uploaded_file($_FILES['imagem']['tmp_name'], $produto->getImagemDiretorio());
         }
         
         $produtoRepositorio = new ProdutoRepositorio($pdo);
@@ -22,7 +24,10 @@
         header("Location: admin.php");
     }
 
-    
+} catch (Exception $e) {
+    $msg = urlencode($e->getMessage());
+    header("Location: cadastrar-produto.php?erro=$msg");
+}
     
 ?>
 <!doctype html>
@@ -51,10 +56,16 @@
         <img class= "ornaments" src="img/ornaments-coffee.png" alt="ornaments">
     </section>
     <section class="container-form">
-        <form method="post" enctype="multipart/form-data">
+        <?php
+        if (isset($_GET['erro'])){
+            $mensagemParaExibir = $_GET['erro'];
+            echo '<div class="msg-erro">' . htmlspecialchars($mensagemParaExibir) . '</div>';
+        }
+        ?>
+        <form method="post" enctype="multipart/form-data" >
 
             <label for="nome">Nome</label>
-            <input type="text" id="nome" name="nome" placeholder="Digite o nome do produto" required>
+            <input type="text" id="nome" name="nome" maxlength="45" placeholder="Digite o nome do produto" required>
             <div class="container-radio">
                 <div>
                     <label for="cafe">Café</label>
@@ -66,7 +77,7 @@
                 </div>
             </div>
             <label for="descricao">Descrição</label>
-            <input type="text" id="descricao" name="descricao" placeholder="Digite uma descrição" required>
+            <input type="text" id="descricao" name="descricao" maxlength="90" placeholder="Digite uma descrição" required>
 
             <label for="preco">Preço</label>
             <input type="text" id="preco" name="preco" placeholder="Digite uma descrição" required>

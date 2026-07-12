@@ -9,6 +9,8 @@ form{
 .container-form{
     display: flex;
     justify-content: center;
+    align-items: center;
+    flex-direction: column;
 }
 
 .container-radio{
@@ -46,4 +48,11 @@ form input::file-selector-button{
 form input:focus{
     border: 3px solid #EBC181;
     outline: none;
+}
+
+.msg-erro {
+    color: red; 
+    padding: 10px; 
+    border: 1px solid red; 
+    margin-bottom: 10px;
 }
