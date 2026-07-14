@@ -51,18 +51,24 @@ class produto
 
     public function setNome($nome)
     {
+        $nome = trim($nome);
+
         if (strlen($nome) < 3 || strlen($nome) > 45){
             throw new Exception("Campo 'Nome' deve ter entre 3 e 45 caracteres.");
         }
-        $this->nome = $nome;
+        
+        $this->nome = strip_tags($nome);
     }
 
     public function setDescricao($descricao)
     {
+        $descricao = trim($descricao);
+
         if (strlen($descricao) < 10 || strlen($descricao) > 90){
             throw new Exception("Campo 'Descrição' deve ter entre 10 e 90 caracteres.");
         }
-        $this->descricao = $descricao;
+
+        $this->descricao = strip_tags($descricao);
     }
 
     public function setImagem(string $imagem): void

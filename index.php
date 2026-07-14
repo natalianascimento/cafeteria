@@ -45,9 +45,9 @@
                         <div class="container-foto">
                             <img src="<?= $cafe->getImagemDiretorio(); ?>">
                         </div>
-                        <p><?= $cafe->getNome(); ?></p>
-                        <p><?= $cafe->getDescricao(); ?></p>
-                        <p><?= $cafe->getPrecoFormatado(); ?></p>
+                        <p><?= htmlspecialchars($cafe->getNome(), ENT_QUOTES, 'UTF-8') ?></p>
+                        <p><?= htmlspecialchars($cafe->getDescricao(), ENT_QUOTES, 'UTF-8') ?></p>
+                        <p><?= htmlspecialchars($cafe->getPrecoFormatado(), ENT_QUOTES, 'UTF-8') ?></p>
                     </div>
                 <?php endforeach; ?>
             </div>
@@ -63,9 +63,9 @@
                         <div class="container-foto">
                             <img src="<?= $almoco->getImagemDiretorio(); ?>">
                         </div>
-                        <p><?= $almoco->getNome(); ?></p>
-                        <p><?= $almoco->getDescricao(); ?></p>
-                        <p><?= $almoco->getPrecoFormatado(); ?></p>
+                        <p><?= htmlspecialchars($almoco->getNome(), ENT_QUOTES, 'UTF-8'); ?></p>
+                        <p><?= htmlspecialchars($almoco->getDescricao(), ENT_QUOTES, 'UTF-8'); ?></p>
+                        <p><?= htmlspecialchars($almoco->getPrecoFormatado(), ENT_QUOTES, 'UTF-8'); ?></p>
                     </div>
                 <?php endforeach; ?>
             </div>

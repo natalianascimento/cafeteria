@@ -60,7 +60,7 @@
     <form method="post"  enctype="multipart/form-data">
 
       <label for="nome">Nome</label>
-      <input type="text" id="nome" name="nome" placeholder="Digite o nome do produto" value="<?= $produto->getNome() ?>" required>
+      <input type="text" id="nome" name="nome" placeholder="Digite o nome do produto" value="<?= htmlspecialchars($produto->getNome(), ENT_QUOTES, 'UTF-8') ?>" required>
 
       <div class="container-radio">
         <div>
@@ -74,10 +74,10 @@
     </div>
 
       <label for="descricao">Descrição</label>
-      <input type="text" id="descricao" name="descricao" placeholder="Digite uma descrição" value="<?= $produto->getDescricao() ?>" required>
+      <input type="text" id="descricao" name="descricao" placeholder="Digite uma descrição" value="<?= htmlspecialchars($produto->getDescricao(), ENT_QUOTES, 'UTF-8') ?>" required>
 
       <label for="preco">Preço</label>
-      <input type="text" id="preco" name="preco" placeholder="Digite uma descrição" value="<?= number_format($produto->getPreco(), 2) ?>" required>
+      <input type="text" id="preco" name="preco" placeholder="Digite uma descrição" value="<?= htmlspecialchars(number_format($produto->getPreco(), 2), ENT_QUOTES, 'UTF-8') ?>" required>
 
       <label for="imagem">Envie uma imagem do produto</label>
       <input type="file" name="imagem" accept="image/*" id="imagem" placeholder="Envie uma imagem">

@@ -48,10 +48,10 @@
       <tbody>
         <?php foreach ($produtos as $produto) { ?>
         <tr>
-          <td><?= $produto->getNome() ?></td>
+          <td><?= htmlspecialchars($produto->getNome(), ENT_QUOTES, 'UTF-8') ?></td>
           <td><?= $produto->getTipo() ?></td>
-          <td><?= $produto->getDescricao() ?></td>
-          <td><?= $produto->getPrecoFormatado() ?></td>
+          <td><?= htmlspecialchars($produto->getDescricao(), ENT_QUOTES, 'UTF-8') ?></td>
+          <td><?= htmlspecialchars($produto->getPrecoFormatado(), ENT_QUOTES, 'UTF-8') ?></td>
           <td><a class="botao-editar" href="editar-produto.php?id=<?= $produto->getId() ?>">Editar</a></td>
           <td>
             <form action="excluir-produto.php" method="post">
