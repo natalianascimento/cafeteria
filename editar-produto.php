@@ -6,28 +6,33 @@
 
   $produtoRepositorio = new ProdutoRepositorio($pdo);
 
-  if (isset($_POST['editar'])){
-    $produto = new Produto(
-      $_POST['id'],
-      $_POST['tipo'], 
-      $_POST['nome'], 
-      $_POST['descricao'], 
-      $_POST['preco']
-    );
+  try {
+    if (isset($_POST['editar'])){
+      $produto = new Produto(
+        $_POST['id'],
+        $_POST['tipo'], 
+        $_POST['nome'], 
+        $_POST['descricao'], 
+        $_POST['preco']
+      );
 
-    if ($_FILES['imagem']['error'] == UPLOAD_ERR_OK){
-      $produto->setImagem(uniqid() . $_FILES['imagem']['name']);
-      move_uploaded_file($_FILES['imagem']['tmp_name'], $produto->getImagemDiretorio());
+      if ($_FILES['imagem']['error'] == UPLOAD_ERR_OK){
+        $produto->setImagem(uniqid() . $_FILES['imagem']['name']);
+        move_uploaded_file($_FILES['imagem']['tmp_name'], $produto->getImagemDiretorio());
+      }
+
+      $produtoRepositorio->atualizarProduto($produto);
+      header("Location: admin.php");
+
+    } else {
+      $produto = $produtoRepositorio->buscarProdutoPorId($_GET['id']);
+
     }
-
-    $produtoRepositorio->atualizarProduto($produto);
-    header("Location: admin.php");
-
-  } else {
-    $produto = $produtoRepositorio->buscarProdutoPorId($_GET['id']);
-
+  } catch (Exception $e) {
+    $msg = urlencode($e->getMessage());
+    $id =isset($_POST['id']) ? urlencode($_POST['id']) : $_GET['id'];
+    header("Location: editar-produto.php?id=$id&erro=$msg");
   }
- 
 
 
 ?>
@@ -57,6 +62,12 @@
     <img class= "ornaments" src="img/ornaments-coffee.png" alt="ornaments">
   </section>
   <section class="container-form">
+     <?php
+        if (isset($_GET['erro'])){
+            $mensagemParaExibir = $_GET['erro'];
+            echo '<div class="msg-erro">' . htmlspecialchars($mensagemParaExibir) . '</div>';
+        }
+        ?>
     <form method="post"  enctype="multipart/form-data">
 
       <label for="nome">Nome</label>
