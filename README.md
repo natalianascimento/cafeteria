@@ -50,3 +50,5 @@ Access the project through your browser, usually at http://localhost/cafeteria/i
 
 ## 🤝 Contributions
 Contributions are always welcome! If you find any bugs or have suggestions for improvements, feel free to open an Issue or submit a Pull Request.
+
+<img width="728" height="509" alt="image" src="https://github.com/user-attachments/assets/30993c18-a080-4158-993b-1c930f74f7f1" />
